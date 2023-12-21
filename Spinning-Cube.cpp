@@ -1,3 +1,4 @@
+// This code makes very little sense at the moment, but I have high hopes that it will soon function as its name implies.
 #include <iostream>
 #include <cmath>
 #include <vector>
