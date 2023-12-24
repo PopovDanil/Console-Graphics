@@ -1,4 +1,4 @@
-// This code makes very little sense at the moment, but I have high hopes that it will soon function as its name implies.
+// This code makes a bit more sense than the previous one at the moment, but I have high hopes that it will soon function as its name implies.
 #include <iostream>
 #include <cmath>
 #include <vector>
@@ -48,14 +48,24 @@ void print(vector <float> vec) {
 	cout << "\n";
 }
 
-void DrawLine(float x0, float y0, float x1, float y1, char* screen) {
-	float len = sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0));
-	float offsetX = (x1 - x0) / len;
-	float offsetY = (y1 - y0) / len;
-	float now = y0;
-	for (int i = x0; i < x1; i+= offsetX) {
-		screen[(int)trunc(i + 59 +(15 - now) * 120)] = 'A';
-		now += offsetY;
+void DrawLine(float x0, float y0, float z0, float x1, float y1, float z1, char* screen) {
+	float a = x1 - x0;
+	float b = y1 - y0;
+	float c = z0 - z1;
+	float len = sqrt(pow(a, 2) + pow(b, 2) + pow(c, 2));
+	float offsetX = (a / len), offsetY = (b / len), offsetZ = (c / len);
+	float xn = x0 + offsetX, yn = y0 + offsetY, zn = z0 + offsetZ;
+	float t = 1;
+	// только для испарвления бага 
+	if (x0 == x1 || y0 == y1) {
+		t = 0;
+	}
+	screen[(int)(trunc(x0 + z0 + (30 - y0) * 120) - t)] = '@';
+	for (int i = 1; i < len; i++) {
+		screen[(int)trunc(xn + zn + trunc(30 - yn) * 120)] = '@';
+		xn += offsetX;
+		yn += offsetY;
+		zn += offsetZ;
 	}
 }
 
@@ -72,8 +82,10 @@ int main() {
 			ind++;
 		}
 	}
-	float x, y, x1, y1;
-	cin >> x >> y >> x1 >> y1;
+	float x, y, z, x1, y1, z1;
+	cin >> x >> y >> z >> x1 >> y1>> z1;
+
+	DrawLine(x, y, z, x1, y1, z1, output);
 
 	printf(output);
 
