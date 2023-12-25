@@ -32,6 +32,16 @@ vector <vector <float>> MatrixSum(vector <vector <float>> mat1, vector <vector <
 	return matF;
 }
 
+vector <vector <float>> GetXRotation(float angle) {
+	float rad = 3.1415 / 180 * angle;
+	return {
+		{1, 0, 0, 0},
+		{0, cos(rad), -sin(rad), 0},
+		{0, sin(rad), cos(rad), 0},
+		{0, 0, 0, 1}
+	};
+}
+
 vector <float> MultiplyVecByMat(vector <vector <float>> mat, vector <float> vec) {
 	return { 
 	mat[0][0] * vec[0] + mat[0][1] * vec[1] + mat[0][2] * vec[2] + mat[0][3] * vec[3],
@@ -52,20 +62,28 @@ void DrawLine(float x0, float y0, float z0, float x1, float y1, float z1, char* 
 	float a = x1 - x0;
 	float b = y1 - y0;
 	float c = z0 - z1;
-	float len = sqrt(pow(a, 2) + pow(b, 2) + pow(c, 2));
+	float len = sqrt(pow(a, 2) + pow(b, 2));
 	float offsetX = (a / len), offsetY = (b / len), offsetZ = (c / len);
 	float xn = x0 + offsetX, yn = y0 + offsetY, zn = z0 + offsetZ;
 	float t = 1;
-	// только для испарвления бага 
 	if (x0 == x1 || y0 == y1) {
 		t = 0;
 	}
-	screen[(int)(trunc(x0 + z0 + (30 - y0) * 120) - t)] = '@';
+	screen[(int)(trunc(x0 + (30 - y0) * 120) - t)] = '@';
 	for (int i = 1; i < len; i++) {
-		screen[(int)trunc(xn + zn + trunc(30 - yn) * 120)] = '@';
+		screen[(int)trunc(xn + trunc(30 - yn) * 120)] = '@';
 		xn += offsetX;
 		yn += offsetY;
-		zn += offsetZ;
+	}
+}
+
+void DrawSquare(vector <vector <float>> tops, vector <vector <int>> connect, char* screen) {
+	for (int i = 0; i < 12; i++) {
+		vector <float> top1 = MultiplyVecByMat(GetXRotation(30), tops[connect[i][0]]);
+		vector <float> top2 = MultiplyVecByMat(GetXRotation(30), tops[connect[i][1]]);
+		float x0 = top1[0], y0 = top1[1], z0 = top1[2];
+		float x1 = top2[0], y1 = top2[1], z1 = top2[2];
+		DrawLine(x0, y0, z0, x1, y1, z1, screen);
 	}
 }
 
@@ -82,10 +100,34 @@ int main() {
 			ind++;
 		}
 	}
-	float x, y, z, x1, y1, z1;
-	cin >> x >> y >> z >> x1 >> y1>> z1;
+	
+	vector <vector <float>> tops = {
+		{20, 20, 15, 1},
+		{20, 20, 25, 1},
+		{30, 20, 25, 1},
+		{30, 20, 15, 1},
+		{20, 10, 15, 1},
+		{20, 10, 25, 1},
+		{30, 10, 25, 1},
+		{30, 10, 15, 1}
+	};
 
-	DrawLine(x, y, z, x1, y1, z1, output);
+	vector <vector <int>> connect = {
+		{0, 1},
+		{1, 2},
+		{2, 3},
+		{3, 0},
+		{4, 0},
+		{1, 5},
+		{2, 6},
+		{3, 7},
+		{4, 5},
+		{4, 7},
+		{5, 6},
+		{6, 7}
+	};
+
+	DrawSquare(tops, connect, output);
 
 	printf(output);
 
