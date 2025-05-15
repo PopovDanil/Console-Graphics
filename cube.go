@@ -7,16 +7,16 @@ import (
 )
 
 var (
-	output 			[]rune
-	zBuffer 		[]float64
+	output 		[]rune
+	zBuffer 	[]float64
 	screenHeight 	int = 70
 	screenWidght 	int = 120
-	cubeWidght 		float64 = 80.0
-	k2 				float64 = 250.0
-	k1 				float64 = 40.0
-	A 				float64 = 0.0
-	B 				float64 = 0.0
-	C				float64 = 0.0
+	cubeWidght 	float64 = 80.0
+	k2 		float64 = 250.0
+	k1 		float64 = 40.0
+	A 		float64 = 0.0
+	B 		float64 = 0.0
+	C		float64 = 0.0
 	incrementSpeed  float64 = 1.8
 )
 
