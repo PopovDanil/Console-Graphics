@@ -7,17 +7,17 @@ import (
 )
 
 var (
-	output 			[]rune
-	zBuffer 		[]float64
+	output 		[]rune
+	zBuffer         []float64
 	screenHeight 	int = 70
 	screenWidght 	int = 100
 	thetaIncrement  float64 = 0.003
 	phiIncrement 	float64 = 0.007
-	r1 				float64 = 1.0
-	r2 				float64 = 2.0
-	k2 				float64 = 10.0
-	k1 				float64 = float64(screenWidght) * k2 * 3 / (8 * (r1 + r2))
-	symbols 		string = ".,-~:;=!*#$@"
+	r1 		float64 = 1.0
+	r2 		float64 = 2.0
+	k2 		float64 = 10.0
+	k1 		float64 = float64(screenWidght) * k2 * 3 / (8 * (r1 + r2))
+	symbols 	string = ".,-~:;=!*#$@"
 )
 
 func clear() {
